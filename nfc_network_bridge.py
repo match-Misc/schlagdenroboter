@@ -137,6 +137,14 @@ class NetworkNFCBridge:
         if not self.connect():
             return
         
+        # Warte kurz und leere den Serial-Buffer
+        print("Initialisiere Verbindung...")
+        time.sleep(2)
+        if self.ser.in_waiting > 0:
+            # Alte Daten im Buffer verwerfen
+            self.ser.reset_input_buffer()
+            print("✓ Buffer geleert")
+        
         print("\n✓ Bridge aktiv - Warte auf NFC-Tags...")
         print("  (Drücke Strg+C zum Beenden)\n")
         
