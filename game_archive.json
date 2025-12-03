@@ -1,15 +1,7 @@
 [
     {
         "name": "Max",
-        "heisser_draht": [
-            {
-                "name": "Max",
-                "time": 12.5,
-                "errors": 2,
-                "difficulty": "Mittel",
-                "timestamp": "2025-10-10T10:06:59.419026"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [
             {
                 "name": "Max",
@@ -30,15 +22,7 @@
     },
     {
         "name": "Anna",
-        "heisser_draht": [
-            {
-                "name": "Anna",
-                "time": 15.2,
-                "errors": 3,
-                "difficulty": "Leicht",
-                "timestamp": "2025-10-10T10:06:59.495824"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [
             {
                 "name": "Anna",
@@ -59,15 +43,7 @@
     },
     {
         "name": "Robert",
-        "heisser_draht": [
-            {
-                "name": "Robert",
-                "time": 12.5,
-                "errors": 2,
-                "difficulty": "Mittel",
-                "timestamp": "2025-10-10T10:13:31.433119"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [
             {
                 "name": "Robert",
@@ -95,15 +71,7 @@
     },
     {
         "name": "Test",
-        "heisser_draht": [
-            {
-                "name": "NFC-TEST001#",
-                "time": 12.5,
-                "errors": 2,
-                "difficulty": "Mittel",
-                "timestamp": "2025-10-10T10:13:16.954880"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": [],
         "archived_date": "2025-10-20T11:13:44.314099",

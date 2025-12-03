@@ -577,6 +577,61 @@ def nfc_scan():
 def get_last_nfc_scan():
     return jsonify(last_scanned_nfc)
 
+# API: Namen über Netzwerk zuweisen (für Remote-Bridges)
+@app.route('/api/assign_name', methods=['POST'])
+def api_assign_name():
+    data = request.get_json()
+    nfc_id = str(data.get('nfc_id', '')).strip()
+    name = str(data.get('name', '')).strip()
+    
+    if not nfc_id or not name:
+        return jsonify({"status": "error", "message": "NFC-ID und Name erforderlich"}), 400
+    
+    print(f"Remote-Namenzuweisung: {nfc_id} → {name}")
+    
+    # Prüfe ob Chip bereits existiert mit Spielen
+    if nfc_id in nfc_mapping and nfc_id in game_data:
+        has_games = (
+            len(game_data[nfc_id].get("heisser_draht", [])) > 0 or
+            len(game_data[nfc_id].get("vier_gewinnt", [])) > 0 or
+            len(game_data[nfc_id].get("puzzle", [])) > 0
+        )
+        
+        if has_games:
+            # Archiviere alte Daten
+            old_name = nfc_mapping[nfc_id]
+            archive_entry = {
+                "name": old_name,
+                "heisser_draht": game_data[nfc_id].get("heisser_draht", []),
+                "vier_gewinnt": game_data[nfc_id].get("vier_gewinnt", []),
+                "puzzle": game_data[nfc_id].get("puzzle", []),
+                "archived_date": datetime.now().isoformat(),
+                "original_nfc_id": nfc_id
+            }
+            game_archive.append(archive_entry)
+            save_archive()
+            
+            # Chip zurücksetzen für neuen Spieler
+            game_data[nfc_id] = {
+                "heisser_draht": [],
+                "vier_gewinnt": [],
+                "puzzle": []
+            }
+    
+    # Namen zuweisen
+    nfc_mapping[nfc_id] = name
+    init_player_data(nfc_id)
+    
+    save_nfc_mapping()
+    save_game_data()
+    
+    return jsonify({
+        "status": "success",
+        "nfc_id": nfc_id,
+        "name": name,
+        "message": f"Name '{name}' erfolgreich zugewiesen"
+    })
+
 # Letzten Update-Timestamp abrufen
 @app.route('/api/last_update', methods=['GET'])
 def get_last_update():

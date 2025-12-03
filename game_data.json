@@ -5,63 +5,12 @@
         "puzzle": []
     },
     "FF0F51CD7C0100": {
-        "heisser_draht": [
-            {
-                "name": "Lennard",
-                "time": 15,
-                "errors": 2,
-                "difficulty": "Profi",
-                "timestamp": "2025-10-20T11:54:34.611008"
-            },
-            {
-                "name": "Lennard",
-                "time": 23,
-                "errors": 3,
-                "difficulty": "Profi",
-                "timestamp": "2025-10-20T13:33:08.838405"
-            },
-            {
-                "name": "Lennard",
-                "time": 21,
-                "errors": 3,
-                "difficulty": "Leicht",
-                "timestamp": "2025-10-20T13:34:45.295302"
-            },
-            {
-                "name": "Lennard",
-                "time": 60,
-                "errors": 0,
-                "difficulty": "Leicht",
-                "timestamp": "2025-10-20T13:38:24.686366"
-            },
-            {
-                "name": "Lennard",
-                "time": 2,
-                "errors": 0,
-                "difficulty": "Leicht",
-                "timestamp": "2025-10-20T13:39:59.732914"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": []
     },
     "FF0F59CD7C0100": {
-        "heisser_draht": [
-            {
-                "name": "MAX3",
-                "time": 2,
-                "errors": 0,
-                "difficulty": "Profi",
-                "timestamp": "2025-10-20T11:49:45.016585"
-            },
-            {
-                "name": "MAX3",
-                "time": 10,
-                "errors": 1,
-                "difficulty": "Leicht",
-                "timestamp": "2025-10-20T13:38:48.992440"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": []
     },
@@ -101,65 +50,38 @@
         "puzzle": []
     },
     "FF0FFAA77C0100": {
-        "heisser_draht": [
-            {
-                "name": "MaxTEST",
-                "time": 19,
-                "errors": 2,
-                "difficulty": "Einfach",
-                "timestamp": "2025-11-06T12:17:58.043325"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": []
     },
     "FF0FD131AC0100": {
-        "heisser_draht": [
-            {
-                "name": "MaxTEst2",
-                "time": 0,
-                "errors": 0,
-                "difficulty": "Einfach",
-                "timestamp": "2025-11-06T12:28:22.115981"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": []
     },
     "FF0F65A97C0100": {
-        "heisser_draht": [
-            {
-                "name": "NFC-FF0F65A97C0100",
-                "time": 26,
-                "errors": 0,
-                "difficulty": "Einfach",
-                "timestamp": "2025-11-06T12:29:26.930798"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": []
     },
     "FF0F03A87C0100": {
-        "heisser_draht": [
-            {
-                "name": "NFC-FF0F03A87C0100",
-                "time": 2,
-                "errors": 0,
-                "difficulty": "Einfach",
-                "timestamp": "2025-11-06T12:33:38.099960"
-            }
-        ],
+        "heisser_draht": [],
         "vier_gewinnt": [],
         "puzzle": []
     },
     "FF0F66A97C0100": {
+        "heisser_draht": [],
+        "vier_gewinnt": [],
+        "puzzle": []
+    },
+    "FF0FA2A67C0100": {
         "heisser_draht": [
             {
-                "name": "NFC-FF0F66A97C0100",
-                "time": 7,
-                "errors": 0,
+                "name": "NFC-FF0FA2A67C0100",
+                "time": 8,
+                "errors": 1,
                 "difficulty": "Einfach",
-                "timestamp": "2025-11-06T12:37:03.616314"
+                "timestamp": "2025-11-10T09:40:20.591942"
             }
         ],
         "vier_gewinnt": [],

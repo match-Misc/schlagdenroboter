@@ -24,6 +24,7 @@ class NetworkNFCBridge:
         self.last_scan_time = 0
         self.arduino_port = None
         self.ser = None
+        self.interactive_mode = True  # Namen direkt in der Konsole eingeben
         
     def find_arduino(self):
         """Automatische Erkennung des Arduino/D1 Mini Ports"""
@@ -87,20 +88,67 @@ class NetworkNFCBridge:
                 # Zeige Spieler-Info an
                 if result.get('has_name'):
                     print(f"  Spieler: {result.get('player_name')}")
+                    return result  # Chip hat bereits Namen
                 else:
                     print(f"  Status: Neuer Chip (noch kein Name)")
-                
-                return True
+                    
+                    # Interaktive Namenseingabe
+                    if self.interactive_mode:
+                        self.prompt_for_name(nfc_id)
+                    
+                return result
             else:
                 print(f"⚠ Server-Fehler: {response.status_code}")
-                return False
+                return None
                 
         except requests.exceptions.ConnectionError:
             print(f"❌ Keine Verbindung zum Server: {self.server_url}")
             print("   Prüfe Server-IP und stelle sicher, dass der Server läuft!")
-            return False
+            return None
         except Exception as e:
             print(f"❌ Fehler: {e}")
+            return None
+    
+    def prompt_for_name(self, nfc_id):
+        """Fragt nach einem Namen für den NFC-Chip"""
+        print("\n" + "="*40)
+        print(f"  NEUER CHIP: {nfc_id}")
+        print("="*40)
+        print("Bitte Namen eingeben (oder Enter zum Überspringen):")
+        
+        try:
+            name = input("  Name: ").strip()
+            
+            if name:
+                success = self.assign_name_to_server(nfc_id, name)
+                if success:
+                    print(f"✓ Name '{name}' wurde zugewiesen!")
+                else:
+                    print(f"⚠ Name konnte nicht zugewiesen werden")
+            else:
+                print("  → Übersprungen (kann später im Admin-Panel zugewiesen werden)")
+        except EOFError:
+            print("  → Automatischer Modus - Name wird übersprungen")
+        
+        print("="*40 + "\n")
+    
+    def assign_name_to_server(self, nfc_id, name):
+        """Weist dem NFC-Chip einen Namen über die API zu"""
+        try:
+            url = f"{self.server_url}/api/assign_name"
+            data = {"nfc_id": nfc_id, "name": name}
+            
+            response = requests.post(url, json=data, timeout=5)
+            
+            if response.status_code == 200:
+                result = response.json()
+                return result.get('status') == 'success'
+            else:
+                print(f"⚠ Server-Fehler beim Zuweisen: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Fehler beim Zuweisen: {e}")
             return False
     
     def process_nfc_data(self, line):
@@ -132,6 +180,7 @@ class NetworkNFCBridge:
         print("="*50)
         print(f"Server: {self.server_url}")
         print(f"Cooldown: {self.cooldown} Sekunden")
+        print(f"Interaktive Namenseingabe: {'AN' if self.interactive_mode else 'AUS'}")
         print("="*50 + "\n")
         
         if not self.connect():

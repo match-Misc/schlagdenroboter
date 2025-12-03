@@ -1,0 +1,285 @@
+{
+    "timestamp": "20251110_093905",
+    "game_type": "heisser_draht",
+    "game_data": {
+        "FD25A604": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F51CD7C0100": {
+            "heisser_draht": [
+                {
+                    "name": "Lennard",
+                    "time": 15,
+                    "errors": 2,
+                    "difficulty": "Profi",
+                    "timestamp": "2025-10-20T11:54:34.611008"
+                },
+                {
+                    "name": "Lennard",
+                    "time": 23,
+                    "errors": 3,
+                    "difficulty": "Profi",
+                    "timestamp": "2025-10-20T13:33:08.838405"
+                },
+                {
+                    "name": "Lennard",
+                    "time": 21,
+                    "errors": 3,
+                    "difficulty": "Leicht",
+                    "timestamp": "2025-10-20T13:34:45.295302"
+                },
+                {
+                    "name": "Lennard",
+                    "time": 60,
+                    "errors": 0,
+                    "difficulty": "Leicht",
+                    "timestamp": "2025-10-20T13:38:24.686366"
+                },
+                {
+                    "name": "Lennard",
+                    "time": 2,
+                    "errors": 0,
+                    "difficulty": "Leicht",
+                    "timestamp": "2025-10-20T13:39:59.732914"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F59CD7C0100": {
+            "heisser_draht": [
+                {
+                    "name": "MAX3",
+                    "time": 2,
+                    "errors": 0,
+                    "difficulty": "Profi",
+                    "timestamp": "2025-10-20T11:49:45.016585"
+                },
+                {
+                    "name": "MAX3",
+                    "time": 10,
+                    "errors": 1,
+                    "difficulty": "Leicht",
+                    "timestamp": "2025-10-20T13:38:48.992440"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "9276D905": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F58CD7C0100": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F55CD7C0100": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F54CD7C0100": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F53CD7C0100": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0FA5A67C0100": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "91E59604": {
+            "heisser_draht": [],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0FFAA77C0100": {
+            "heisser_draht": [
+                {
+                    "name": "MaxTEST",
+                    "time": 19,
+                    "errors": 2,
+                    "difficulty": "Einfach",
+                    "timestamp": "2025-11-06T12:17:58.043325"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0FD131AC0100": {
+            "heisser_draht": [
+                {
+                    "name": "MaxTEst2",
+                    "time": 0,
+                    "errors": 0,
+                    "difficulty": "Einfach",
+                    "timestamp": "2025-11-06T12:28:22.115981"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F65A97C0100": {
+            "heisser_draht": [
+                {
+                    "name": "NFC-FF0F65A97C0100",
+                    "time": 26,
+                    "errors": 0,
+                    "difficulty": "Einfach",
+                    "timestamp": "2025-11-06T12:29:26.930798"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F03A87C0100": {
+            "heisser_draht": [
+                {
+                    "name": "NFC-FF0F03A87C0100",
+                    "time": 2,
+                    "errors": 0,
+                    "difficulty": "Einfach",
+                    "timestamp": "2025-11-06T12:33:38.099960"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        },
+        "FF0F66A97C0100": {
+            "heisser_draht": [
+                {
+                    "name": "NFC-FF0F66A97C0100",
+                    "time": 7,
+                    "errors": 0,
+                    "difficulty": "Einfach",
+                    "timestamp": "2025-11-06T12:37:03.616314"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": []
+        }
+    },
+    "game_archive": [
+        {
+            "name": "Max",
+            "heisser_draht": [
+                {
+                    "name": "Max",
+                    "time": 12.5,
+                    "errors": 2,
+                    "difficulty": "Mittel",
+                    "timestamp": "2025-10-10T10:06:59.419026"
+                }
+            ],
+            "vier_gewinnt": [
+                {
+                    "name": "Max",
+                    "result": "won",
+                    "difficulty": "Schwer",
+                    "timestamp": "2025-10-10T10:06:59.432864"
+                }
+            ],
+            "puzzle": [
+                {
+                    "name": "Max",
+                    "time": 38.75,
+                    "timestamp": "2025-10-10T10:06:59.436260"
+                }
+            ],
+            "archived_date": "2025-10-10T10:06:59.441666",
+            "original_nfc_id": "TEST001"
+        },
+        {
+            "name": "Anna",
+            "heisser_draht": [
+                {
+                    "name": "Anna",
+                    "time": 15.2,
+                    "errors": 3,
+                    "difficulty": "Leicht",
+                    "timestamp": "2025-10-10T10:06:59.495824"
+                }
+            ],
+            "vier_gewinnt": [
+                {
+                    "name": "Anna",
+                    "result": "won",
+                    "difficulty": "Schwer",
+                    "timestamp": "2025-10-10T10:10:24.184910"
+                }
+            ],
+            "puzzle": [
+                {
+                    "name": "Anna",
+                    "time": 38.75,
+                    "timestamp": "2025-10-10T10:10:50.516434"
+                }
+            ],
+            "archived_date": "2025-10-10T10:11:41.829917",
+            "original_nfc_id": "TEST001"
+        },
+        {
+            "name": "Robert",
+            "heisser_draht": [
+                {
+                    "name": "Robert",
+                    "time": 12.5,
+                    "errors": 2,
+                    "difficulty": "Mittel",
+                    "timestamp": "2025-10-10T10:13:31.433119"
+                }
+            ],
+            "vier_gewinnt": [
+                {
+                    "name": "Robert",
+                    "result": "won",
+                    "difficulty": "Schwer",
+                    "timestamp": "2025-10-10T10:12:34.200613"
+                }
+            ],
+            "puzzle": [
+                {
+                    "name": "Robert",
+                    "time": 38.75,
+                    "timestamp": "2025-10-10T10:12:28.791274"
+                },
+                {
+                    "name": "Robert",
+                    "time": 42.3,
+                    "difficulty": "Schwer",
+                    "timestamp": "2025-10-10T10:22:09.685341"
+                }
+            ],
+            "archived_date": "2025-10-20T09:50:56.115217",
+            "original_nfc_id": "TEST001",
+            "reason": "Chip gelöscht"
+        },
+        {
+            "name": "Test",
+            "heisser_draht": [
+                {
+                    "name": "NFC-TEST001#",
+                    "time": 12.5,
+                    "errors": 2,
+                    "difficulty": "Mittel",
+                    "timestamp": "2025-10-10T10:13:16.954880"
+                }
+            ],
+            "vier_gewinnt": [],
+            "puzzle": [],
+            "archived_date": "2025-10-20T11:13:44.314099",
+            "original_nfc_id": "TEST001#",
+            "reason": "Chip gelöscht"
+        }
+    ]
+}
