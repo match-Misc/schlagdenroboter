@@ -85,6 +85,12 @@
 					</div>
 					<div id="scanPlayerInfo" style="color: #666; margin-bottom: 20px;"></div>
 					
+					<!-- Chip-Details -->
+					<div id="chipDetails" style="display: none; background: #f5f5f5; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: left;">
+						<h4 style="margin-bottom: 10px; color: #333;">📊 Spielstand:</h4>
+						<div id="chipGamesInfo" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;"></div>
+					</div>
+					
 					<!-- Schnell-Zuweisung -->
 					<form id="quickAssignForm" style="display: none; margin-top: 20px;">
 						<input type="text" id="quickNameInput" placeholder="Spielername eingeben" required style="padding: 12px 20px; border: 2px solid #b1cb21; border-radius: 5px; font-size: 1em; min-width: 300px; margin-right: 10px;">
@@ -98,8 +104,8 @@
 				</div>
 				
 				<div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 10px; border-left: 4px solid #ff9800;">
-					<strong>💡 Hinweis:</strong> Arduino mit NFC-Reader muss am Computer angeschlossen und konfiguriert sein.<br>
-					Alternative: NFC-ID manuell unten eingeben.
+					<strong>💡 Hinweis:</strong> Die NFC-Bridge muss auf einem PC im Netzwerk laufen (nfc_network_bridge.py).<br>
+					Gescannte Chips werden hier automatisch angezeigt. Namen können direkt zugewiesen werden.
 				</div>
 			</div>
 		</div>
@@ -242,6 +248,28 @@
 			</div>
 		</div>
 		
+		<!-- Alle Chips löschen -->
+		<div class="admin-section" style="background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%); border: 3px solid #d32f2f;">
+			<h2 class="section-title" style="color: #b71c1c;">💥 Alle Chips löschen</h2>
+			
+			<div style="background: white; border-radius: 10px; padding: 20px;">
+				<div style="background: #ffebee; border-left: 4px solid #f44336; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+					<strong>⚠️ ACHTUNG:</strong> Dies löscht ALLE registrierten NFC-Chips und deren Zuordnungen!<br>
+					<strong>📊 Spieldaten:</strong> Werden ins Archiv verschoben und bleiben in Leaderboards sichtbar.<br>
+					<strong>💾 Backup:</strong> Vor dem Löschen wird automatisch ein Backup erstellt.
+				</div>
+				
+				<div style="text-align: center;">
+					<p style="margin-bottom: 15px; color: #666;">
+						<strong>{{ nfc_list|length }}</strong> Chip(s) werden gelöscht
+					</p>
+					<button onclick="deleteAllChips()" class="btn btn-danger" style="padding: 15px 40px; font-size: 1.1em; font-weight: bold;">
+						💥 ALLE CHIPS LÖSCHEN
+					</button>
+				</div>
+			</div>
+		</div>
+		
 		<div class="admin-section">
 			<h2 class="section-title">ℹ️ Hinweise</h2>
 			<ul style="line-height: 2; color: #555;">
@@ -326,7 +354,7 @@
 		}
 		
 		// NFC-Scan manuell auslösen (für Testing)
-		function processNfcScan(nfcId, playerName = null, exists = false, hasName = false) {
+		async function processNfcScan(nfcId, playerName = null, exists = false, hasName = false) {
 			if (nfcId === lastScannedNfc) {
 				return; // Verhindere Duplikate
 			}
@@ -338,45 +366,87 @@
 			scannedIdSpan.textContent = nfcId;
 			
 			const quickAssignBtn = document.getElementById('quickAssignBtn');
+			const chipDetails = document.getElementById('chipDetails');
+			const chipGamesInfo = document.getElementById('chipGamesInfo');
+			
+			// Hole aktuelle Chip-Details vom Server
+			try {
+				const detailsResponse = await fetch(`/api/chip_details/${nfcId}`);
+				const details = await detailsResponse.json();
+				
+				// Aktualisiere mit aktuellen Daten
+				exists = details.exists;
+				hasName = details.has_name;
+				playerName = details.player_name;
+				
+				// Zeige Spielstand
+				if (exists && (details.games.heisser_draht > 0 || details.games.vier_gewinnt > 0 || details.games.puzzle > 0)) {
+					chipDetails.style.display = 'block';
+					chipGamesInfo.innerHTML = `
+						<div style="background: white; padding: 10px; border-radius: 5px; text-align: center;">
+							<div style="font-size: 1.5em;">🔥</div>
+							<div style="font-weight: bold;">${details.games.heisser_draht}</div>
+							<div style="font-size: 0.8em; color: #666;">Heißer Draht</div>
+						</div>
+						<div style="background: white; padding: 10px; border-radius: 5px; text-align: center;">
+							<div style="font-size: 1.5em;">🎲</div>
+							<div style="font-weight: bold;">${details.games.vier_gewinnt}</div>
+							<div style="font-size: 0.8em; color: #666;">Vier Gewinnt</div>
+						</div>
+						<div style="background: white; padding: 10px; border-radius: 5px; text-align: center;">
+							<div style="font-size: 1.5em;">🧩</div>
+							<div style="font-weight: bold;">${details.games.puzzle}</div>
+							<div style="font-size: 0.8em; color: #666;">Puzzle</div>
+						</div>
+					`;
+				} else {
+					chipDetails.style.display = 'none';
+				}
+			} catch (error) {
+				console.error('Fehler beim Laden der Chip-Details:', error);
+				chipDetails.style.display = 'none';
+			}
 			
 			if (hasName) {
 				// Chip hat bereits einen Namen - Zeige Option zum Umbenennen + Löschen
 				playerInfoDiv.innerHTML = `
 					<div style="color: #4caf50; font-size: 1.1em;">
-						✓ Chip bereits registriert: <strong>${playerName}</strong>
+						✓ Chip registriert: <strong>${playerName}</strong>
 					</div>
 					<div style="margin-top: 10px; color: #666;">
-						Chip kann jetzt für Spiele verwendet werden.
+						Chip kann für Spiele verwendet werden.
 					</div>
 					<div style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; border-left: 4px solid #ffc107;">
-						<strong>💡 Namen ändern?</strong><br>
-						Gib einen neuen Namen ein und klicke auf "Namen ändern"
+						<strong>💡 Namen ändern?</strong> Neuen Namen eingeben und klicken.
 					</div>
 				`;
 				quickForm.style.display = 'block';
-				quickNameInput.value = playerName; // Aktuellen Namen vorausfüllen
+				quickNameInput.value = playerName;
 				quickNameInput.focus();
-				quickNameInput.select(); // Text markieren für schnelles Überschreiben
-				quickAssignBtn.innerHTML = '✏️ Namen ändern'; // Button-Text ändern
-				quickDeleteForm.style.display = 'block'; // Lösch-Button anzeigen
+				quickNameInput.select();
+				quickAssignBtn.innerHTML = '✏️ Namen ändern';
+				quickDeleteForm.style.display = 'block';
 			} else {
 				// Chip ist neu oder unbenannt
 				playerInfoDiv.innerHTML = `
 					<div style="color: #ff9800; font-size: 1.1em;">
 						⚠️ Chip noch nicht benannt
 					</div>
+					<div style="margin-top: 10px; color: #666;">
+						Bitte Namen eingeben, um den Chip zu registrieren.
+					</div>
 				`;
 				quickForm.style.display = 'block';
 				quickNameInput.value = '';
 				quickNameInput.focus();
-				quickAssignBtn.innerHTML = '✅ Namen zuweisen'; // Button-Text zurücksetzen
-				quickDeleteForm.style.display = 'block'; // Lösch-Button anzeigen (auch für unbenannte Chips)
+				quickAssignBtn.innerHTML = '✅ Namen zuweisen';
+				quickDeleteForm.style.display = 'block';
 			}
 			
-			// Nach 5 Sekunden ausblenden
+			// Nach 10 Sekunden Reset erlauben
 			setTimeout(() => {
 				lastScannedNfc = null;
-			}, 5000);
+			}, 10000);
 		}
 		
 		// Schnell-Zuweisung
@@ -528,6 +598,57 @@
 				}
 			} catch (error) {
 				alert('❌ Fehler beim Zurücksetzen: ' + error);
+			}
+		}
+		
+		// Alle Chips löschen
+		async function deleteAllChips() {
+			const chipCount = {{ nfc_list|length }};
+			
+			if (chipCount === 0) {
+				alert('Keine Chips zum Löschen vorhanden.');
+				return;
+			}
+			
+			// Erste Bestätigung
+			const firstConfirm = confirm(
+				`⚠️ ACHTUNG: Du bist dabei, ALLE ${chipCount} Chip(s) zu löschen!\n\n` +
+				`Dies betrifft:\n` +
+				`- Alle NFC-Chip Zuordnungen\n` +
+				`- Alle Spielernamen\n\n` +
+				`Spieldaten werden archiviert und bleiben in Leaderboards sichtbar.\n\n` +
+				`Bist du SICHER, dass du fortfahren möchtest?`
+			);
+			
+			if (!firstConfirm) return;
+			
+			// Zweite Bestätigung
+			const secondConfirm = confirm(
+				`⚠️ LETZTE WARNUNG!\n\n` +
+				`Wirklich ALLE ${chipCount} Chips unwiderruflich löschen?\n\n` +
+				`(Ein Backup wird erstellt)`
+			);
+			
+			if (!secondConfirm) return;
+			
+			try {
+				const response = await fetch('/admin/delete_all_chips', {
+					method: 'POST'
+				});
+				
+				const result = await response.json();
+				
+				if (result.success) {
+					alert(
+						`✅ ${result.message}\n\n` +
+						`💾 Backup gespeichert: ${result.backup_file}`
+					);
+					location.reload();
+				} else {
+					alert('❌ Fehler: ' + result.message);
+				}
+			} catch (error) {
+				alert('❌ Fehler beim Löschen: ' + error);
 			}
 		}
 		

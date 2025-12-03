@@ -577,6 +577,30 @@ def nfc_scan():
 def get_last_nfc_scan():
     return jsonify(last_scanned_nfc)
 
+# API: Chip-Details abrufen (für Live-Scanner)
+@app.route('/api/chip_details/<nfc_id>', methods=['GET'])
+def get_chip_details(nfc_id):
+    nfc_id = str(nfc_id).strip()
+    
+    if nfc_id not in game_data:
+        return jsonify({
+            "exists": False,
+            "has_name": False,
+            "player_name": None,
+            "games": {"heisser_draht": 0, "vier_gewinnt": 0, "puzzle": 0}
+        })
+    
+    return jsonify({
+        "exists": True,
+        "has_name": nfc_id in nfc_mapping,
+        "player_name": nfc_mapping.get(nfc_id, None),
+        "games": {
+            "heisser_draht": len(game_data[nfc_id].get("heisser_draht", [])),
+            "vier_gewinnt": len(game_data[nfc_id].get("vier_gewinnt", [])),
+            "puzzle": len(game_data[nfc_id].get("puzzle", []))
+        }
+    })
+
 # API: Namen über Netzwerk zuweisen (für Remote-Bridges)
 @app.route('/api/assign_name', methods=['POST'])
 def api_assign_name():
@@ -653,6 +677,62 @@ def generate_certificate_admin(nfc_id):
     }
     
     return render_template('certificate_multi.html', player=player_data)
+
+# Alle Chips löschen
+@app.route('/admin/delete_all_chips', methods=['POST'])
+def delete_all_chips():
+    global nfc_mapping, game_data, game_archive
+    
+    # Backup erstellen
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    backup_data = {
+        "timestamp": timestamp,
+        "reason": "delete_all_chips",
+        "nfc_mapping": nfc_mapping.copy(),
+        "game_data": game_data.copy(),
+        "game_archive": game_archive.copy()
+    }
+    
+    backup_filename = f"chips_backup_{timestamp}.json"
+    with open(backup_filename, 'w', encoding='utf-8') as f:
+        json.dump(backup_data, f, indent=4, ensure_ascii=False)
+    
+    # Zähle Chips vor dem Löschen
+    chip_count = len(set(list(nfc_mapping.keys()) + list(game_data.keys())))
+    
+    # Alle Daten archivieren
+    for nfc_id in list(game_data.keys()):
+        has_games = (
+            len(game_data[nfc_id].get("heisser_draht", [])) > 0 or
+            len(game_data[nfc_id].get("vier_gewinnt", [])) > 0 or
+            len(game_data[nfc_id].get("puzzle", [])) > 0
+        )
+        if has_games:
+            archive_entry = {
+                "name": nfc_mapping.get(nfc_id, "Unbekannt"),
+                "heisser_draht": game_data[nfc_id].get("heisser_draht", []),
+                "vier_gewinnt": game_data[nfc_id].get("vier_gewinnt", []),
+                "puzzle": game_data[nfc_id].get("puzzle", []),
+                "archived_date": datetime.now().isoformat(),
+                "original_nfc_id": nfc_id,
+                "reason": "Alle Chips gelöscht"
+            }
+            game_archive.append(archive_entry)
+    
+    # Alle Chips und Mappings löschen
+    nfc_mapping = {}
+    game_data = {}
+    
+    save_nfc_mapping()
+    save_game_data()
+    save_archive()
+    
+    return jsonify({
+        "success": True,
+        "message": f"{chip_count} Chip(s) wurden gelöscht",
+        "backup_file": backup_filename,
+        "chips_deleted": chip_count
+    })
 
 # Leaderboard zurücksetzen
 @app.route('/admin/reset_leaderboard', methods=['POST'])
