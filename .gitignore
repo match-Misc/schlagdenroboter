@@ -37,7 +37,9 @@ Thumbs.db
 # Logs
 *.log
 
-# Sensitive data (optional - uncomment if you don't want to commit game data)
-# game_data.json
-# nfc_mapping.json
-# game_archive.json
+# Runtime data (Spieldaten - nicht committen!)
+game_data.json
+nfc_mapping.json
+game_archive.json
+all_time_leaderboard.json
+leaderboard_backup_*.json
