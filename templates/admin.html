@@ -263,6 +263,7 @@
 	<script>
 		let scannerInterval = null;
 		let lastScannedNfc = null;
+		let lastScannedTimestamp = null;
 		
 		const startBtn = document.getElementById('startScanBtn');
 		const stopBtn = document.getElementById('stopScanBtn');
@@ -301,8 +302,9 @@
 					const response = await fetch('/api/last_nfc_scan');
 					const data = await response.json();
 					
-					// Prüfe ob neuer Scan vorliegt
-					if (data.nfc_id && data.nfc_id !== lastScannedNfc) {
+					// Prüfe ob neuer Scan vorliegt (anhand Timestamp)
+					if (data.nfc_id && data.timestamp && data.timestamp !== lastScannedTimestamp) {
+						lastScannedTimestamp = data.timestamp;
 						processNfcScan(
 							data.nfc_id, 
 							data.player_name, 
